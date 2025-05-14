@@ -1,26 +1,22 @@
-import React from 'react';
+import 'react-native-gesture-handler';
+import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import CadastroScreen from './screens/cadastroScreen';
-import ConsultaScreen from './screens/consultaScreen';
+import DrawerNavigator from './navigation/DrawerNavigator';
 
-const Stack = createNativeStackNavigator();
+// Importação do banco de dados
+import { initDB } from './db/dbUsuarios';
+import { initDBProdutos } from './db/dbProdutos';
 
 export default function App() {
+  // Inicialização do banco de dados
+  useEffect(() => {
+    initDB();
+    initDBProdutos();
+  }, []);
+
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Consulta">
-        <Stack.Screen 
-          name="Cadastro" 
-          component={CadastroScreen} 
-          options={{ title: 'Cadastrar Usuário' }}
-        />
-        <Stack.Screen 
-          name="Consulta" 
-          component={ConsultaScreen} 
-          options={{ title: 'Lista de Usuários' }}
-        />
-      </Stack.Navigator>
+      <DrawerNavigator />
     </NavigationContainer>
   );
 }
